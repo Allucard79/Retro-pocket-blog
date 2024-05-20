@@ -5,6 +5,7 @@ Welcome to the Retro Pocket Blog! This project is a modern web application dedic
 ## Features
 
 - **React.js**: A powerful JavaScript library for building user interfaces.
+- **Tailwind Css**: CSS framework that provides low-level utility classes to build custom designs without writing CSS from scratch.
 - **Firebase**: Utilized for data storage, user authentication, and hosting.
 - **Vite**: A fast and modern build tool for an optimized development experience.
 - **Responsive Design**: Accessible on both desktop and mobile devices.
