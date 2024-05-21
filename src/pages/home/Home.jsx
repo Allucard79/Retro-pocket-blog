@@ -1,5 +1,10 @@
 import React from "react";
+import MainContent from "../../components/mainContent/MainContent";
 
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <MainContent>
+      <div>Home</div>
+    </MainContent>
+  );
 }

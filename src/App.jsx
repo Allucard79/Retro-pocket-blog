@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import State from "./context/State";
 import Home from "./pages/home/Home";
 import Post from "./pages/allPosts/post/Post";
 import AllPosts from "./pages/allPosts/AllPosts";
@@ -11,7 +12,7 @@ import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <div>
+    <State>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,7 +26,7 @@ function App() {
         </Routes>
         <Toaster />
       </Router>
-    </div>
+    </State>
   );
 }
 
