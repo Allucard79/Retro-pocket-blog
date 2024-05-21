@@ -10,7 +10,8 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
 import Context from "../../context/Context";
-import logo from "../../assets/img/unnamed.png";
+import logo from "../../assets/img/logo.png";
+import admin from "../../assets/img/admin.png";
 
 export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
@@ -27,7 +28,9 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
-        <Link to={"/"} className="flex items-center"></Link>
+        <Link to={"/"} className="flex items-center">
+          Home
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -36,7 +39,9 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
-        <Link to={"/allposts"} className="flex items-center"></Link>
+        <Link to={"/allposts"} className="flex items-center">
+          Dashboard
+        </Link>
       </Typography>
       <Typography
         as="li"
@@ -45,7 +50,9 @@ export default function Nav() {
         className="p-1 font-normal"
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
-        <Link to={"/adminlogin"} className="flex items-center"></Link>
+        <Link to={"/adminlogin"} className="flex items-center">
+          Login
+        </Link>
       </Typography>
     </ul>
   );
@@ -66,7 +73,7 @@ export default function Nav() {
               style={{ color: mode === "dark" ? "white" : "white" }}
             >
               {/* Logo Image  */}
-              <img className=" w-15 h-20 " src={logo} />
+              <img className=" w-11 h-11 " src={logo} />
               {/* Logo Text  */}
               <span>Retro Pocket</span>
             </Typography>
@@ -85,16 +92,14 @@ export default function Nav() {
             </div>
             {/* Admin Profile Pic */}
             <div>
-              <Link to={"/dashboard"}>
+              <Link to={"/admindashboard"}>
                 <div className="">
                   <Avatar
                     key={1}
-                    src={
-                      "https://cdn-icons-png.flaticon.com/128/3135/3135715.png"
-                    }
+                    src={admin}
                     alt="avatar"
                     withBorder={true}
-                    className="p-0.5 text-red-500 w-10 h-10"
+                    className=" text-red-500 w-10 h-10"
                     style={{
                       border:
                         mode === "dark"
