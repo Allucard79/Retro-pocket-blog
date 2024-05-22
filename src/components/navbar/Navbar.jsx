@@ -12,6 +12,8 @@ import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
 import Context from "../../context/Context";
 import logo from "../../assets/img/logo.png";
 import admin from "../../assets/img/admin.png";
+import Search from "../search/Search";
+import Share from "../share/Share";
 
 export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
@@ -84,11 +86,11 @@ export default function Nav() {
             <div className="hidden lg:block">{navMenu}</div>
             {/* Search Icon */}
             <div>
-              <AiOutlineSearch size={20} color="white" />
+              <Search />
             </div>
             {/* Share Icon */}
             <div className="hidden lg:block">
-              <AiOutlineShareAlt size={20} color="white" />
+              <Share />
             </div>
             {/* Admin Profile Pic */}
             <div>
