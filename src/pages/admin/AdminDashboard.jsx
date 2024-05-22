@@ -47,7 +47,7 @@ export default function AdminDashboard() {
               <span>Total Post : </span> 1
             </h2>
             <div className=" flex gap-2 mt-2">
-              <Link to={"/createpost"}>
+              <Link to={"/addpost"}>
                 <div className=" mb-2">
                   <Button
                     style={{
