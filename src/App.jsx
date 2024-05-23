@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AddPost from "./pages/admin/AddPost";
 import NoPage from "./pages/nopage/Nopage";
 import { Toaster } from "react-hot-toast";
+import { ProtectedRouteForAdmin } from "./helpers/ProtectedRouteForAdmin";
 
 function App() {
   return (
@@ -20,8 +21,22 @@ function App() {
           <Route path="/allposts" element={<AllPosts />} />
           <Route path="/postinfo/:id" element={<PostInfo />} />
           <Route path="/adminlogin" element={<AdminLogin />} />
-          <Route path="/admindashboard" element={<AdminDashboard />} />
-          <Route path="/addpost" element={<AddPost />} />
+          <Route
+            path="/admindashboard"
+            element={
+              <ProtectedRouteForAdmin>
+                <AdminDashboard />
+              </ProtectedRouteForAdmin>
+            }
+          />
+          <Route
+            path="/addpost"
+            element={
+              <ProtectedRouteForAdmin>
+                <AddPost />
+              </ProtectedRouteForAdmin>
+            }
+          />
           <Route path="/*" element={<NoPage />} />
         </Routes>
         <Toaster />

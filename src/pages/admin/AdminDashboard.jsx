@@ -2,13 +2,21 @@ import React, { useContext } from "react";
 import MainContent from "../../components/mainContent/MainContent";
 import Context from "../../context/Context";
 import { Button } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AdminPicture from "../../assets/img/admin.png";
 import PostPicture from "../../assets/img/logo.png";
 
 export default function AdminDashboard() {
   const context = useContext(Context);
   const { mode } = context;
+
+  const navigate = useNavigate();
+
+  //* Logout Function
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <MainContent>
@@ -65,6 +73,7 @@ export default function AdminDashboard() {
               </Link>
               <div className="mb-2">
                 <Button
+                  onClick={logout}
                   style={{
                     background:
                       mode === "dark"

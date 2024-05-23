@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Navbar,
   Typography,
@@ -7,11 +7,10 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { AiOutlineShareAlt, AiOutlineSearch } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import Context from "../../context/Context";
 import logo from "../../assets/img/logo.png";
-import admin from "../../assets/img/admin.png";
+import adminPicture from "../../assets/img/admin.png";
 import Search from "../search/Search";
 import Share from "../share/Share";
 
@@ -20,6 +19,16 @@ export default function Nav() {
 
   const context = useContext(Context);
   const { mode, toggleMode } = context;
+
+  const admin = localStorage.getItem("admin");
+
+  const navigate = useNavigate();
+
+  //* Logout Function
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   const navMenu = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -45,17 +54,29 @@ export default function Nav() {
           Dashboard
         </Link>
       </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-        style={{ color: mode === "dark" ? "white" : "white" }}
-      >
-        <Link to={"/adminlogin"} className="flex items-center">
-          Login
-        </Link>
-      </Typography>
+      {!admin ? (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+          style={{ color: mode === "dark" ? "white" : "white" }}
+        >
+          <Link to={"/adminlogin"} className="flex items-center">
+            Login
+          </Link>
+        </Typography>
+      ) : (
+        <Typography
+          as="li"
+          variant="small"
+          color="blue-gray"
+          className="p-1 font-normal"
+          style={{ color: mode === "dark" ? "white" : "white" }}
+        >
+          <button onClick={logout}>Logout</button>
+        </Typography>
+      )}
     </ul>
   );
 
@@ -92,26 +113,30 @@ export default function Nav() {
             <div className="hidden lg:block">
               <Share />
             </div>
-            {/* Admin Profile Pic */}
-            <div>
-              <Link to={"/admindashboard"}>
-                <div className="">
-                  <Avatar
-                    key={1}
-                    src={admin}
-                    alt="avatar"
-                    withBorder={true}
-                    className=" text-red-500 w-10 h-10"
-                    style={{
-                      border:
-                        mode === "dark"
-                          ? "2px solid rgb(226, 232, 240)"
-                          : "2px solid rgb(30, 41, 59)",
-                    }}
-                  />
-                </div>
-              </Link>
-            </div>
+            {admin ? (
+              <div>
+                <Link to={"/admindashboard"}>
+                  <div className="">
+                    <Avatar
+                      key={1}
+                      src={adminPicture}
+                      alt="avatar"
+                      withBorder={true}
+                      className=" text-red-500 w-10 h-10"
+                      style={{
+                        border:
+                          mode === "dark"
+                            ? "2px solid rgb(226, 232, 240)"
+                            : "2px solid rgb(30, 41, 59)",
+                      }}
+                    />
+                  </div>
+                </Link>
+              </div>
+            ) : (
+              ""
+            )}
+
             {/* dark And Light Button */}
             <div>
               {mode === "light" ? (
