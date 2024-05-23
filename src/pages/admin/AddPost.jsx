@@ -48,7 +48,7 @@ export default function AddPost() {
           </div>
           <Link
             to={"/admindashboard"}
-            className="flex gap-2 font-semibold"
+            className="flex gap-2 mt-2 font-semibold"
             style={{
               color: mode === "dark" ? "white" : "black",
             }}
@@ -160,7 +160,7 @@ export default function AddPost() {
               className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${
                           mode === "dark"
-                            ? "[&>h1]:text-[#ff4d4d]"
+                            ? "[&>h1]:text-[#E2E8F0]"
                             : "[&>h1]:text-black"
                         }
                         ${
@@ -190,7 +190,7 @@ export default function AddPost() {
                         }
                         ${
                           mode === "dark"
-                            ? "[&>p]:text-[#7efff5]"
+                            ? "[&>p]:text-[#E2E8F0]"
                             : "[&>p]:text-black"
                         }
                         ${
