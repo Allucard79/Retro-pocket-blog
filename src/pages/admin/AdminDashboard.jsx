@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import MainContent from "../../components/mainContent/MainContent";
 import Context from "../../context/Context";
 import { Button } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import AdminPicture from "../../assets/img/admin.png";
-import PostPicture from "../../assets/img/logo.png";
 
 export default function AdminDashboard() {
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, getAllPost } = context;
 
   const navigate = useNavigate();
 
@@ -17,6 +16,8 @@ export default function AdminDashboard() {
     localStorage.clear();
     navigate("/");
   };
+
+  console.log("allposts", getAllPost)
 
   return (
     <MainContent>
@@ -114,104 +115,141 @@ export default function AdminDashboard() {
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Id
+                    </th>
                     <th
                       style={{
                         color: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Thumbnail
+                    </th>
                     <th
                       style={{
                         color: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Title
+                    </th>
                     <th
                       style={{
                         color: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Category
+                    </th>
                     <th
                       style={{
                         color: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Date
+                    </th>
                     <th
                       style={{
                         color: mode === "dark" ? "rgb(30, 41, 59)" : "white",
                       }}
                       scope="col"
                       className="px-6 py-3"
-                    ></th>
+                    >
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 {/* tbody  */}
-                <tbody>
-                  <tr
-                    className=" border-b-2"
-                    style={{
-                      background: mode === "dark" ? "rgb(30, 41, 59)" : "white",
-                    }}
-                  >
-                    {/* S.No   */}
-                    <td
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      className="px-6 py-4"
-                    >
-                      {"1."}
-                    </td>
-                    {/* Post Thumbnail  */}
-                    <th
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      scope="row"
-                      className="px-6 py-4 font-medium "
-                    >
-                      {/* thumbnail  */}
-                      <img
-                        className="w-16 rounded-lg"
-                        src={PostPicture}
-                        alt="thumbnail"
-                      />
-                    </th>
-                    {/* Post Title  */}
-                    <td
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      className="px-6 py-4"
-                    >
-                      {"SNES"}
-                    </td>
-                    {/* Post Category  */}
-                    <td
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      className="px-6 py-4"
-                    >
-                      {"Hardware"}
-                    </td>
-                    {/* Post Date  */}
-                    <td
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      className="px-6 py-4"
-                    >
-                      {"22, May 2024"}
-                    </td>
-                    {/* Delete Post  */}
-                    <td
-                      style={{ color: mode === "dark" ? "white" : "black" }}
-                      className="px-6 py-4"
-                    >
-                      <button className=" px-4 py-1 rounded-lg text-white font-bold bg-red-500">
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
+                {getAllPost.length > 0 ? (
+                  <>
+                    {getAllPost.map((item, index) => {
+                      const { thumbnail, date } = item;
+                      console.log(item);
+                      return (
+                        <tbody>
+                          <tr
+                            className=" border-b-2"
+                            style={{
+                              background:
+                                mode === "dark" ? "rgb(30, 41, 59)" : "white",
+                            }}
+                          >
+                            {/* S.No   */}
+                            <td
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              className="px-6 py-4"
+                            >
+                              {index + 1}
+                            </td>
+                            {/* Post Thumbnail  */}
+                            <th
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              scope="row"
+                              className="px-6 py-4 font-medium "
+                            >
+                              {/* thumbnail  */}
+                              <img
+                                className="w-16 rounded-lg"
+                                src={thumbnail}
+                                alt="thumbnail"
+                              />
+                            </th>
+                            {/* Post Title  */}
+                            <td
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              className="px-6 py-4"
+                            >
+                              {item.posts.title}
+                            </td>
+                            {/* Post Category  */}
+                            <td
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              className="px-6 py-4"
+                            >
+                              {item.posts.category}
+                            </td>
+                            {/* Post Date  */}
+                            <td
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              className="px-6 py-4"
+                            >
+                              {date}
+                            </td>
+                            {/* Delete Post  */}
+                            <td
+                              style={{
+                                color: mode === "dark" ? "white" : "black",
+                              }}
+                              className="px-6 py-4"
+                            >
+                              <button className=" px-4 py-1 rounded-lg text-white font-bold bg-red-500">
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>Post not Found</>
+                )}
               </table>
             </div>
           </div>

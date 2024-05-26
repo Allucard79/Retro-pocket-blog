@@ -2,16 +2,68 @@ import { useState, useContext } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Context from "../../context/Context";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@material-tailwind/react";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import toast from "react-hot-toast";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { fireDB, storage } from "../../firebase/FirebaseConfig";
 
 export default function AddPost() {
-  const [posts, setPosts] = useState("");
+  const [posts, setPosts] = useState({
+    title: "",
+    category: "",
+    content: "",
+  });
   const [text, setText] = useState("");
   const [thumbnail, setThumbnail] = useState();
 
   const context = useContext(Context);
   const { mode } = context;
+
+  const navigate = useNavigate();
+
+  //* Add Post Function
+  const addBlogPost = async () => {
+    if (
+      posts.title === "" ||
+      posts.category === "" ||
+      posts.content === "" ||
+      posts.thumbnail === ""
+    ) {
+      toast.error("Please Fill All Fields");
+    }
+    // console.log(blogs.content)
+    uploadImage();
+  };
+
+  //* Upload Image Function
+  const uploadImage = () => {
+    if (!thumbnail) return;
+    const imageRef = ref(storage, `postimage/${thumbnail.name}`);
+    uploadBytes(imageRef, thumbnail).then(snapshot => {
+      getDownloadURL(snapshot.ref).then(url => {
+        const productRef = collection(fireDB, "blogPost");
+        try {
+          addDoc(productRef, {
+            posts,
+            thumbnail: url,
+            time: Timestamp.now(),
+            date: new Date().toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            }),
+          });
+          navigate("/admindashboard");
+          toast.success("Post Added Successfully");
+        } catch (error) {
+          toast.error(error);
+          console.log(error);
+        }
+      });
+    });
+  };
 
   console.log("Value: ");
   console.log("text: ", text);
@@ -99,6 +151,8 @@ export default function AddPost() {
               background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
             }}
             name="title"
+            onChange={e => setPosts({ ...posts, title: e.target.value })}
+            value={posts.title}
           />
         </div>
         {/* Third Category Input  */}
@@ -114,13 +168,15 @@ export default function AddPost() {
               background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
             }}
             name="category"
+            onChange={e => setPosts({ ...posts, category: e.target.value })}
+            value={posts.category}
           />
         </div>
         {/* Four Editor  */}
         <Editor
           apiKey="m96patl8b5n5xnhgjybuxfyxq2gf15e9dip6xxfe5c1n39ue"
           onEditorChange={(newValue, editor) => {
-            setPosts({ posts, content: newValue });
+            setPosts({ ...posts, content: newValue });
             setText(editor.getContent({ format: "text" }));
           }}
           onInit={(evt, editor) => {
@@ -137,6 +193,7 @@ export default function AddPost() {
         {/* Five Submit Button  */}
         <Button
           className=" w-full mt-5"
+          onClick={addBlogPost}
           style={{
             background:
               mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
