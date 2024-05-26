@@ -17,7 +17,7 @@ export default function AdminDashboard() {
     navigate("/");
   };
 
-  console.log("allposts", getAllPost)
+  console.log("allposts", getAllPost);
 
   return (
     <MainContent>
@@ -68,7 +68,7 @@ export default function AdminDashboard() {
                     }}
                     className="px-8 py-2"
                   >
-                    Create Post
+                    Add Post
                   </Button>
                 </div>
               </Link>
@@ -172,7 +172,7 @@ export default function AdminDashboard() {
                       const { thumbnail, date } = item;
                       console.log(item);
                       return (
-                        <tbody>
+                        <tbody key={index}>
                           <tr
                             className=" border-b-2"
                             style={{

@@ -157,20 +157,26 @@ export default function AddPost() {
         </div>
         {/* Third Category Input  */}
         <div className="mb-3">
-          <input
-            label="Enter your Category"
+          <select
             className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                  outline-none ${
                    mode === "dark" ? "placeholder-black" : "placeholder-black"
                  }`}
-            placeholder="Enter Your Category"
             style={{
               background: mode === "dark" ? "#dcdde1" : "rgb(226, 232, 240)",
             }}
             name="category"
             onChange={e => setPosts({ ...posts, category: e.target.value })}
             value={posts.category}
-          />
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="Console">Console</option>
+            <option value="Arcade">Arcade</option>
+            <option value="Game">Game</option>
+            <option value="Hardware">Hardware</option>
+          </select>
         </div>
         {/* Four Editor  */}
         <Editor
