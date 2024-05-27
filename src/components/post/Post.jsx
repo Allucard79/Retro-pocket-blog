@@ -1,121 +1,211 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../context/Context";
-import { Button } from "@material-tailwind/react";
-import { useNavigate } from "react-router";
+import { useParams } from "react-router";
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { fireDB } from "../../firebase/FirebaseConfig";
+import MainContent from "../mainContent/MainContent";
+import Loader from "../loader/Loader";
+import Comment from "../comment/Comment";
+import toast from "react-hot-toast";
 
 export default function Post() {
+  const [getPosts, setGetPosts] = useState();
   const context = useContext(Context);
-  const { mode, getAllPost } = context;
+  const { mode, setLoading, loading } = context;
 
-  const navigate = useNavigate();
+  const params = useParams();
+
+  const getAllPosts = async () => {
+    setLoading(true);
+    try {
+      const productTemp = await getDoc(doc(fireDB, "blogPost", params.id));
+      if (productTemp.exists()) {
+        setGetPosts(productTemp.data());
+      } else {
+        console.log("Document does not exist");
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
+    window.scrollTo(0, 0);
+  }, []);
+
+  //* Create markup function
+  function createMarkup(c) {
+    return { __html: c };
+  }
+
+  const [fullName, setFullName] = useState("");
+  const [commentText, setCommentText] = useState("");
+
+  const addComment = async () => {
+    const commentRef = collection(
+      fireDB,
+      "blogPost/" + `${params.id}/` + "comment"
+    );
+    try {
+      await addDoc(commentRef, {
+        fullName,
+        commentText,
+        time: Timestamp.now(),
+        date: new Date().toLocaleString("en-US", {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
+        }),
+      });
+      toast.success("Comment Add Successfully");
+      setFullName("");
+      setCommentText("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [allComment, setAllComment] = useState([]);
+
+  const getComment = async () => {
+    try {
+      const q = query(
+        collection(fireDB, "blogPost/" + `${params.id}/` + "comment/"),
+        orderBy("time")
+      );
+      const data = onSnapshot(q, QuerySnapshot => {
+        let commentsArray = [];
+        QuerySnapshot.forEach(doc => {
+          commentsArray.push({ ...doc.data(), id: doc.id });
+        });
+        setAllComment(commentsArray);
+        console.log(commentsArray);
+      });
+      return () => data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getComment();
+  }, []);
 
   return (
-    <div>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-10 mx-auto max-w-7xl ">
-          {/* Main Content  */}
-          <div className="flex flex-wrap justify-center -m-4 mb-5">
-            {/* Post card  */}
-            {getAllPost.length > 0 ? (
-              <>
-                {getAllPost.map((item, index) => {
-                  const { thumbnail, id, date } = item;
-                  console.log(item);
-                  return (
-                    <div className="p-4 md:w-1/3" key={index}>
-                      <div
-                        style={{
-                          background: mode === "dark" ? "#1E293B" : "#683058",
-                          border:
-                            mode === "dark"
-                              ? " 4px solid #BEBDCC"
-                              : " 4px solid #683058",
-                        }}
-                        className={`h-full shadow-xl cursor-pointer
-               ${
-                 mode === "dark"
-                   ? "hover:shadow-gray-400"
-                   : "hover:shadow-indigo-900"
-               } 
-               rounded-xl overflow-hidden`}
-                      >
-                        {/* Post Thumbnail  */}
-                        <img
-                          onClick={() => navigate(`/postinfo/${id}`)}
-                          className=" w-full"
-                          src={thumbnail}
-                          alt="post"
-                        />
-
-                        {/* Top Items  */}
-                        <div className="p-6">
-                          {/* Post Date  */}
-                          <h2
-                            className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
-                            style={{
-                              color:
-                                mode === "dark"
-                                  ? "rgb(226, 232, 240)"
-                                  : " rgb(226, 232, 240)",
-                            }}
-                          >
-                            {date}
-                          </h2>
-
-                          {/* Post Title  */}
-                          <h1
-                            className="title-font text-lg font-bold text-gray-900 mb-3"
-                            style={{
-                              color:
-                                mode === "dark"
-                                  ? "rgb(226, 232, 240)"
-                                  : " rgb(226, 232, 240)",
-                            }}
-                          >
-                            {item.posts.title}
-                          </h1>
-
-                          {/* Post Description  */}
-                          <p
-                            className="leading-relaxed mb-3"
-                            style={{
-                              color:
-                                mode === "dark"
-                                  ? "rgb(226, 232, 240)"
-                                  : " rgb(30, 41, 59)",
-                            }}
-                          >
-                            {item.posts.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                {" "}
-                <h1 className="text-xl font-bold">No posts to display</h1>
-              </>
-            )}
-          </div>
-
-          {/* See More Button  */}
-          <div className="flex justify-center my-5">
-            <Button
-              style={{
-                background:
-                  mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-                color:
-                  mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
-              }}
-            >
-              See More
-            </Button>
-          </div>
+    <MainContent>
+      <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 ">
+        <div className=" py-4 lg:py-8">
+          {loading ? (
+            <Loader />
+          ) : (
+            <div>
+              {/* Thumbnail  */}
+              <img
+                alt="content"
+                className="mb-3 rounded-lg h-full w-full"
+                src={getPosts?.thumbnail}
+              />
+              {/* title And date  */}
+              <div className="flex justify-between items-center mb-3">
+                <h1
+                  style={{ color: mode === "dark" ? "white" : "black" }}
+                  className=" text-xl md:text-2xl lg:text-2xl font-semibold"
+                >
+                  {getPosts?.posts?.title}
+                </h1>
+                <p style={{ color: mode === "dark" ? "white" : "black" }}>
+                  {getPosts?.date}
+                </p>
+              </div>
+              <div
+                className={`border-b mb-5 ${
+                  mode === "dark" ? "border-gray-600" : "border-gray-400"
+                }`}
+              />
+              {/* post Content  */}
+              <div className="content">
+                <div
+                  className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+                        ${
+                          mode === "dark"
+                            ? "[&>h1]:text-[#ff4d4d]"
+                            : "[&>h1]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h2]:text-white"
+                            : "[&>h2]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h3]:text-white"
+                            : "[&>h3]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h4]:text-white"
+                            : "[&>h4]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h5]:text-white"
+                            : "[&>h5]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h6]:text-white"
+                            : "[&>h6]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>p]:text-[#7efff5]"
+                            : "[&>p]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ul]:text-white"
+                            : "[&>ul]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        `}
+                  dangerouslySetInnerHTML={createMarkup(
+                    getPosts?.posts?.content
+                  )}
+                ></div>
+              </div>
+            </div>
+          )}
+          <Comment
+            addComment={addComment}
+            commentText={commentText}
+            setCommentText={setCommentText}
+            allComment={allComment}
+            fullName={fullName}
+            setFullName={setFullName}
+          />
         </div>
       </section>
-    </div>
+    </MainContent>
   );
 }
