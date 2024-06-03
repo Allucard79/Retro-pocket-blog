@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Button } from "@material-tailwind/react";
+import React, { useContext, useState } from "react";
+import { Button, Collapse, IconButton } from "@material-tailwind/react";
 import Context from "../../context/Context";
 
 export default function Comment({
@@ -13,84 +13,117 @@ export default function Comment({
   const context = useContext(Context);
   const { mode } = context;
 
+  const [openNav, setOpenNav] = useState(false);
+
   return (
     <section className=" py-8 lg:py-16">
       <div className="max-w-2xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-3">
+        {/* <div className="flex justify-between items-center mb-3">
           <h2
             className="text-lg lg:text-2xl font-bold"
             style={{ color: mode === "dark" ? "white" : "black" }}
           >
             Create comment
           </h2>
-        </div>
-        {/* Comment Form  */}
-        <form className="mb-6">
-          {/* Full Name Input  */}
-          <div
-            className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
+        </div> */}
+
+        <Collapse open={openNav}>
+          <form className="mb-6">
+            {/* Full Name Input  */}
+            <div
+              className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
             shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200"
-            style={{
-              background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-            }}
-          >
-            <input
-              type="text"
-              placeholder="Enter Full Name"
-              value={fullName}
-              onChange={e => setFullName(e.target.value)}
-              className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
               style={{
                 background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-              }}
-            />
-          </div>
-          {/* Text Area  */}
-          <div
-            className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
-          shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200 "
-            style={{
-              background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-            }}
-          >
-            <label htmlFor="comment" className="sr-only">
-              Your comment
-            </label>
-            <textarea
-              id="comment"
-              rows={6}
-              value={commentText}
-              onChange={e => setCommentText(e.target.value)}
-              className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
-              style={{
-                background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
-              }}
-              placeholder="Write a comment..."
-              required
-              defaultValue={""}
-            />
-          </div>
-          {/* Button  */}
-          <div className="">
-            <Button
-              onClick={addComment}
-              style={{
-                background:
-                  mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-                color:
-                  mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
               }}
             >
-              Add comment
-            </Button>
-          </div>
-        </form>
-        <h2
-          className="text-lg lg:text-2xl font-bold"
-          style={{ color: mode === "dark" ? "white" : "black" }}
-        >
-          All comments
-        </h2>
+              <input
+                type="text"
+                placeholder="Enter Full Name"
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
+                style={{
+                  background:
+                    mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
+                }}
+              />
+            </div>
+            {/* Text Area  */}
+            <div
+              className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
+          shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200 "
+              style={{
+                background: mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
+              }}
+            >
+              <label htmlFor="comment" className="sr-only">
+                Your comment
+              </label>
+              <textarea
+                id="comment"
+                rows={6}
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
+                className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
+                style={{
+                  background:
+                    mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
+                }}
+                placeholder="Write a comment..."
+                required
+                defaultValue={""}
+              />
+            </div>
+            {/* Button  */}
+            <div className="">
+              <Button
+                onClick={addComment}
+                style={{
+                  background:
+                    mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
+                  color:
+                    mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
+                }}
+              >
+                Add comment
+              </Button>
+            </div>
+          </form>
+        </Collapse>
+        {/* Comment Form  */}
+        <div className="flex items-center justify-between p-1 text-xl">
+          <h3
+            className="flex items-center justify-between p-1 text-xl font-semibold text-gray-700"
+            style={{ color: mode === "dark" ? "white" : "black" }}
+          >
+            All comments
+          </h3>
+          <button
+            onClick={() => setOpenNav(!openNav)}
+            className="flex items-center justify-between p-1 text-lg font-semibold text-gray-700 rounded-lg focus:outline-none"
+            style={{ color: mode === "dark" ? "white" : "black" }}
+          >
+            <span>Post comment</span>
+            <svg
+              className={`w-6 h-6 transition-transform transform ${
+                openNav ? "rotate-180" : "rotate-0"
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
         {/* Bottom Item  */}
         <article
           className="p-6 mb-6 text-base rounded-lg "

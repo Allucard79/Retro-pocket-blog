@@ -7,7 +7,7 @@ import AdminPicture from "../../assets/img/admin.png";
 
 export default function AdminDashboard() {
   const context = useContext(Context);
-  const { mode, getAllPost } = context;
+  const { mode, getAllPost, deletePosts } = context;
 
   const navigate = useNavigate();
 
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
                 {getAllPost.length > 0 ? (
                   <>
                     {getAllPost.map((item, index) => {
-                      const { thumbnail, date } = item;
+                      const { thumbnail, date, id } = item;
                       console.log(item);
                       return (
                         <tbody key={index}>
@@ -233,6 +233,7 @@ export default function AdminDashboard() {
                             </td>
                             {/* Delete Post  */}
                             <td
+                              onClick={() => deletePosts(id)}
                               style={{
                                 color: mode === "dark" ? "white" : "black",
                               }}
