@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Context from "../../context/Context";
@@ -65,8 +65,9 @@ export default function AddPost() {
     });
   };
 
-  console.log("Value: ");
-  console.log("text: ", text);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Create markup function
   function createMarkup(c) {

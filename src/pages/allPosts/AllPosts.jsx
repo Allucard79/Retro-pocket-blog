@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Context from "../../context/Context";
 import MainContent from "../../components/mainContent/MainContent";
 import { useNavigate } from "react-router";
@@ -8,6 +8,10 @@ export default function AllPosts() {
   const { mode, getAllPost } = context;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <MainContent>
@@ -99,7 +103,7 @@ export default function AllPosts() {
               </>
             ) : (
               <>
-                <h1 className="text-xl font-bold">Not Found</h1>
+                <h1 className="text-xl font-bold">No posts to display</h1>
               </>
             )}
           </div>

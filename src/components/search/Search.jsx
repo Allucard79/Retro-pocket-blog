@@ -2,13 +2,16 @@ import { useContext, useState } from "react";
 import { Dialog, DialogBody, Input } from "@material-tailwind/react";
 import Context from "../../context/Context";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router";
 import Picture from "../../assets/img/logo.png";
 
 export default function Search() {
   const [open, setOpen] = useState(false);
 
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, searchKey, setSearchKey, getAllPost } = context;
+
+  const navigate = useNavigate();
 
   const handleOpen = () => setOpen(!open);
 
@@ -36,8 +39,10 @@ export default function Search() {
               color="white"
               type="search"
               label="Type here..."
+              value={searchKey}
+              onChange={e => setSearchKey(e.target.value)}
               className=" bg-[#2C3A47]"
-              name="searchkey"
+              name="searchKey"
               containerProps={{
                 className: "min-w-[288px]",
               }}
@@ -45,16 +50,29 @@ export default function Search() {
           </div>
           {/* Post Card  */}
           <div className="flex justify-center flex-wrap  sm:mx-auto sm:mb-2 -mx-2  mt-4 mb-2 ">
-            <div className="p-2 sm:w-1/4 w-full ">
-              <div className=" container mx-auto px-4 bg-gray-200 p-2 rounded-lg ">
-                {/* Post Thumbnail  */}
-                <img className="w-20 mb-2 rounded-lg" src={Picture} alt="" />
-                {/* Post Date  */}
-                <p className="w-40 text-sm">{"date"}</p>
-                {/* Post Title  */}
-                <h1>{"title"}</h1>
-              </div>
-            </div>
+            {getAllPost
+              .filter(obj => obj.posts.title.toLowerCase().includes(searchKey))
+              .map((item, index) => {
+                return (
+                  <div className="p-2 sm:w-1/4 w-full " key={index}>
+                    <div
+                      onClick={() => navigate(`/post/${item.id}`)}
+                      className="container mx-auto px-4 bg-gray-200 p-2 rounded-lg "
+                    >
+                      {/* Post Thumbnail  */}
+                      <img
+                        className="w-20 mb-2 rounded-lg"
+                        src={item.thumbnail}
+                        alt=""
+                      />
+                      {/* Post Date  */}
+                      <p className="w-40 text-sm">{item.date}</p>
+                      {/* Post Title  */}
+                      <h1>{item.posts.title}</h1>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
           {/* Heading  */}
           <div className=" text-center">

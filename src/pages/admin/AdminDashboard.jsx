@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import MainContent from "../../components/mainContent/MainContent";
 import Context from "../../context/Context";
 import { Button } from "@material-tailwind/react";
@@ -17,7 +17,9 @@ export default function AdminDashboard() {
     navigate("/");
   };
 
-  console.log("allposts", getAllPost);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <MainContent>

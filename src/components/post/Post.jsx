@@ -101,6 +101,7 @@ export default function Post() {
 
   useEffect(() => {
     getComment();
+    window.scrollTo(0, 0);
   }, []);
 
   return (
