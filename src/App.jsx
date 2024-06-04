@@ -7,6 +7,7 @@ import Post from "./components/post/Post";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AddPost from "./pages/admin/AddPost";
+import EditPost from "./pages/admin/EditPost";
 import NoPage from "./pages/nopage/Nopage";
 import { Toaster } from "react-hot-toast";
 import { ProtectedRouteForAdmin } from "./helpers/ProtectedRouteForAdmin";
@@ -34,6 +35,14 @@ function App() {
             element={
               <ProtectedRouteForAdmin>
                 <AddPost />
+              </ProtectedRouteForAdmin>
+            }
+          />
+          <Route
+            path="/editpost/:id"
+            element={
+              <ProtectedRouteForAdmin>
+                <EditPost />
               </ProtectedRouteForAdmin>
             }
           />

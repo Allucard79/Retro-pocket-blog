@@ -55,7 +55,7 @@ export default function AdminDashboard() {
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              <span>Total Post : </span> 1
+              <span>Total Post : </span> {getAllPost.length}
             </h2>
             <div className=" flex gap-2 mt-2">
               <Link to={"/addpost"}>
@@ -235,13 +235,22 @@ export default function AdminDashboard() {
                             </td>
                             {/* Delete Post  */}
                             <td
-                              onClick={() => deletePosts(id)}
                               style={{
                                 color: mode === "dark" ? "white" : "black",
                               }}
-                              className="px-6 py-4"
+                              className="px-2 py-4"
                             >
-                              <button className=" px-4 py-1 rounded-lg text-white font-bold bg-red-500">
+                              <button
+                                onClick={() => navigate(`/editpost/${id}`)}
+                                className=" px-4 py-1 mr-2 rounded-lg text-white font-bold bg-green-500"
+                              >
+                                Edit
+                              </button>
+
+                              <button
+                                onClick={() => deletePosts(id)}
+                                className=" px-4 py-1 rounded-lg text-white font-bold bg-red-500"
+                              >
                                 Delete
                               </button>
                             </td>
