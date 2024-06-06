@@ -8,6 +8,7 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { fireDB, storage } from "../../firebase/FirebaseConfig";
+import {ApiKey} from '../../helpers/Helpers'
 
 export default function AddPost() {
   const [posts, setPosts] = useState({
@@ -33,7 +34,6 @@ export default function AddPost() {
     ) {
       toast.error("Please Fill All Fields");
     }
-    // console.log(blogs.content)
     uploadImage();
   };
 
@@ -181,7 +181,7 @@ export default function AddPost() {
         </div>
         {/* Four Editor  */}
         <Editor
-          apiKey="m96patl8b5n5xnhgjybuxfyxq2gf15e9dip6xxfe5c1n39ue"
+          apiKey={ApiKey}
           onEditorChange={(newValue, editor) => {
             setPosts({ ...posts, content: newValue });
             setText(editor.getContent({ format: "text" }));

@@ -172,7 +172,6 @@ export default function AdminDashboard() {
                   <>
                     {getAllPost.map((item, index) => {
                       const { thumbnail, date, id } = item;
-                      console.log(item);
                       return (
                         <tbody key={index}>
                           <tr
@@ -242,14 +241,14 @@ export default function AdminDashboard() {
                             >
                               <button
                                 onClick={() => navigate(`/editpost/${id}`)}
-                                className=" px-4 py-1 mr-2 rounded-lg text-white font-bold bg-green-500"
+                                className=" px-6 py-1 mr-2 rounded-lg text-white font-bold bg-green-500"
                               >
                                 Edit
                               </button>
 
                               <button
                                 onClick={() => deletePosts(id)}
-                                className=" px-4 py-1 rounded-lg text-white font-bold bg-red-500"
+                                className=" px-4 py-1 mt-1 rounded-lg text-white font-bold bg-red-500"
                               >
                                 Delete
                               </button>

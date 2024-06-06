@@ -3,7 +3,6 @@ import { Dialog, DialogBody, Input } from "@material-tailwind/react";
 import Context from "../../context/Context";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router";
-import Picture from "../../assets/img/logo.png";
 
 export default function Search() {
   const [open, setOpen] = useState(false);

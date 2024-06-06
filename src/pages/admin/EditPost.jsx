@@ -8,6 +8,7 @@ import { Timestamp, doc, getDoc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { fireDB, storage } from "../../firebase/FirebaseConfig";
+import { ApiKey } from "../../helpers/Helpers";
 
 export default function UpdatePost() {
   const { id } = useParams(); // To get the post ID from the URL
@@ -203,7 +204,7 @@ export default function UpdatePost() {
         </div>
         {/* Four Editor */}
         <Editor
-          apiKey="m96patl8b5n5xnhgjybuxfyxq2gf15e9dip6xxfe5c1n39ue"
+          apiKey={ApiKey}
           value={posts.content}
           onEditorChange={(newValue, editor) => {
             setPosts({ ...posts, content: newValue });

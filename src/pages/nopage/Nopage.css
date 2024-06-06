@@ -1,0 +1,6 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Horizontally centers the div */
+  align-items: center; /* Vertically centers the div */
+}

@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Button, Collapse, IconButton } from "@material-tailwind/react";
+import { useContext, useState } from "react";
+import { Button, Collapse } from "@material-tailwind/react";
 import Context from "../../context/Context";
 
 export default function Comment({
@@ -18,15 +18,6 @@ export default function Comment({
   return (
     <section className=" py-8 lg:py-16">
       <div className="max-w-2xl mx-auto px-4">
-        {/* <div className="flex justify-between items-center mb-3">
-          <h2
-            className="text-lg lg:text-2xl font-bold"
-            style={{ color: mode === "dark" ? "white" : "black" }}
-          >
-            Create comment
-          </h2>
-        </div> */}
-
         <Collapse open={openNav}>
           <form className="mb-6">
             {/* Full Name Input  */}

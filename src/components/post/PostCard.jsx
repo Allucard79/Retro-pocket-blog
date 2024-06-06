@@ -20,7 +20,6 @@ export default function PostCard() {
               <>
                 {getAllPost.map((item, index) => {
                   const { thumbnail, id, date } = item;
-                  console.log(item);
                   return (
                     <div className="p-4 md:w-1/3" key={index}>
                       <div

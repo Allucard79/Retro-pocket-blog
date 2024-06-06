@@ -39,7 +39,6 @@ export default function State(props) {
         });
 
         setGetAllPost(postArray);
-        console.log(postArray);
         setLoading(false);
       });
       return () => data;

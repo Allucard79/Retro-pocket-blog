@@ -1,5 +1,20 @@
-import React from "react";
+import { useContext } from "react";
+import MainContent from "../../components/mainContent/MainContent";
+import Context from "../../context/Context";
 
-export default function Nopage() {
-  return <div>Nopage</div>;
+import "./Nopage.css";
+
+export default function NoPage() {
+  const context = useContext(Context);
+  const { mode } = context;
+  return (
+    <MainContent>
+      <div className="content">
+        <h1 className="font-bold text-2xl mb-2"
+              style={{ color: mode === "dark" ? "white" : "black" }}>ERROR 404</h1>
+        <h1 className="font-bold text-2xl mb-2"
+              style={{ color: mode === "dark" ? "white" : "black" }}>Page Not Found</h1>
+      </div>
+    </MainContent>
+  );
 }

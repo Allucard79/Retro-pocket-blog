@@ -91,7 +91,6 @@ export default function Post() {
           commentsArray.push({ ...doc.data(), id: doc.id });
         });
         setAllComment(commentsArray);
-        console.log(commentsArray);
       });
       return () => data;
     } catch (error) {
