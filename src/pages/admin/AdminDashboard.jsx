@@ -17,6 +17,11 @@ export default function AdminDashboard() {
     navigate("/");
   };
 
+  const adminInfo = JSON.parse(localStorage.admin);
+  const adminEmail = adminInfo.user.email;
+  const pattern = /^[^@]+/;
+  const adminName = adminEmail.match(pattern);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -25,39 +30,43 @@ export default function AdminDashboard() {
     <MainContent>
       <div className="py-10">
         <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
-          <div className="left">
-            <img
-              className=" w-40 h-40  object-cover rounded-full border-2 border-purple-600 p-1"
-              src={AdminPicture}
-              alt="profile"
-            />
-          </div>
           <div className="right">
-            <h1
-              className="font-bold text-2xl mb-2"
-              style={{ color: mode === "dark" ? "white" : "black" }}
-            >
-              Allucard79
-            </h1>
+            <div className="flex flex-wrap justify-start items-center gap-2 mb-5">
+              <img
+                className=" w-10 h-10  object-cover rounded-full border-2 border-purple-600 p-1"
+                src={AdminPicture}
+                alt="profile"
+              />{" "}
+              <h1
+                className="font-bold text-2xl"
+                style={{ color: mode === "dark" ? "white" : "black" }}
+              >
+                Admin Group
+              </h1>
+            </div>
             <h2
-              style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
+              style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              Web Developer
+              Name: {adminName}
             </h2>
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              fakeEmail@gmail.com
+              Email: {adminEmail}
             </h2>
+
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              <span>Total Post : </span> {getAllPost.length}
+              Total Post :{" "}
+              <span style={{ color: "red" }}>
+                {getAllPost.length}
+              </span>
             </h2>
-            <div className=" flex gap-2 mt-2">
+            <div className=" flex gap-2 mt-5">
               <Link to={"/addpost"}>
                 <div className=" mb-2">
                   <Button
