@@ -8,7 +8,7 @@ export default function Search() {
   const [open, setOpen] = useState(false);
 
   const context = useContext(Context);
-  const { mode, searchKey, setSearchKey, getAllPost } = context;
+  const { mode, searchKey, setSearchKey, getAllPosts } = context;
 
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export default function Search() {
           </div>
           {/* Post Card  */}
           <div className="flex justify-center flex-wrap  sm:mx-auto sm:mb-2 -mx-2  mt-4 mb-2 ">
-            {getAllPost
+            {getAllPosts
               .filter(obj => obj.posts.title.toLowerCase().includes(searchKey))
               .map((item, index) => {
                 return (

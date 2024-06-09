@@ -16,7 +16,7 @@ export default function Header() {
           <div className="text-center">
             <div className="mb-2">
               {/* Image  */}
-              <div className="w-13 h-28 flex justify-center">
+              <div className="w-13 h-28 flex justify-center mb-5">
                 <img src={Logo} alt="Logo" />
               </div>
               {/* Text  */}

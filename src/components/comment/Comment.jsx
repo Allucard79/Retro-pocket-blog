@@ -153,7 +153,12 @@ export default function Comment({
               );
             })
           ) : (
-            <>There is no comments</>
+            <p
+              className="text-gray-500 dark:text-gray-400 text-md"
+              style={{ color: mode === "dark" ? "white" : "black" }}
+            >
+              There is no comments
+            </p>
           )}
         </article>
       </div>

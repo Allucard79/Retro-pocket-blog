@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import Context from "../../context/Context";
-import { Button } from "@material-tailwind/react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function PostCard() {
   const context = useContext(Context);
-  const { mode, getAllPost } = context;
+  const { mode, getAllPosts } = context;
 
   const navigate = useNavigate();
 
@@ -16,12 +15,16 @@ export default function PostCard() {
           {/* Main Content  */}
           <div className="flex flex-wrap justify-center -m-4 mb-5">
             {/* Post card  */}
-            {getAllPost.length > 0 ? (
+            {getAllPosts.length > 0 ? (
               <>
-                {getAllPost.map((item, index) => {
+                {getAllPosts.map((item, index) => {
                   const { thumbnail, id, date } = item;
                   return (
-                    <div className="p-4 md:w-1/3" key={index}>
+                    <div
+                      className="p-4 md:w-1/3"
+                      key={index}
+                      onClick={() => navigate(`/post/${id}`)}
+                    >
                       <div
                         style={{
                           background: mode === "dark" ? "#1E293B" : "#683058",
@@ -31,20 +34,15 @@ export default function PostCard() {
                               : " 4px solid #683058",
                         }}
                         className={`h-full shadow-xl cursor-pointer
-               ${
-                 mode === "dark"
-                   ? "hover:shadow-gray-400"
-                   : "hover:shadow-indigo-900"
-               } 
-               rounded-xl overflow-hidden`}
+             ${
+               mode === "dark"
+                 ? "hover:shadow-gray-400"
+                 : "hover:shadow-indigo-900"
+             } 
+             rounded-xl overflow-hidden`}
                       >
                         {/* Post Thumbnail  */}
-                        <img
-                          onClick={() => navigate(`/post/${id}`)}
-                          className=" w-full"
-                          src={thumbnail}
-                          alt="post"
-                        />
+                        <img className=" w-full" src={thumbnail} alt="post" />
 
                         {/* Top Items  */}
                         <div className="p-6">
@@ -98,22 +96,6 @@ export default function PostCard() {
                 <h1 className="text-xl font-bold">No posts to display</h1>
               </>
             )}
-          </div>
-
-          {/* See More Button  */}
-          <div className="flex justify-center my-5">
-            <Link to={"/allposts"}>
-              <Button
-                style={{
-                  background:
-                    mode === "dark" ? "rgb(226, 232, 240)" : "rgb(30, 41, 59)",
-                  color:
-                    mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
-                }}
-              >
-                See More
-              </Button>
-            </Link>
           </div>
         </div>
       </section>

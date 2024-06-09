@@ -110,9 +110,14 @@ export default function Nav() {
               <Search />
             </div>
             {/* Share Icon */}
-            <div className="hidden lg:block">
-              <Share />
-            </div>
+            {admin ? (
+              <div className="hidden lg:block">
+                <Share />
+              </div>
+            ) : (
+              ""
+            )}
+
             {admin ? (
               <div>
                 <Link to={"/admindashboard"}>

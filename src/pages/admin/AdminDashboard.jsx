@@ -7,7 +7,7 @@ import AdminPicture from "../../assets/img/admin.png";
 
 export default function AdminDashboard() {
   const context = useContext(Context);
-  const { mode, getAllPost, deletePosts } = context;
+  const { mode, getAllPosts, deletePost } = context;
 
   const navigate = useNavigate();
 
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
             >
               Total Post :{" "}
               <span style={{ color: "red" }}>
-                {getAllPost.length}
+                {getAllPosts.length}
               </span>
             </h2>
             <div className=" flex gap-2 mt-5">
@@ -177,9 +177,9 @@ export default function AdminDashboard() {
                   </tr>
                 </thead>
                 {/* tbody  */}
-                {getAllPost.length > 0 ? (
+                {getAllPosts.length > 0 ? (
                   <>
-                    {getAllPost.map((item, index) => {
+                    {getAllPosts.map((item, index) => {
                       const { thumbnail, date, id } = item;
                       return (
                         <tbody key={index}>
@@ -256,7 +256,7 @@ export default function AdminDashboard() {
                               </button>
 
                               <button
-                                onClick={() => deletePosts(id)}
+                                onClick={() => deletePost(id)}
                                 className=" px-4 py-1 mt-1 rounded-lg text-white font-bold bg-red-500"
                               >
                                 Delete

@@ -15,7 +15,7 @@ export default function State(props) {
   const [mode, setMode] = useState("light");
   const [searchKey, setSearchKey] = useState("");
   const [loading, setLoading] = useState(false);
-  const [getAllPost, setGetAllPost] = useState([]);
+  const [getAllPosts, setGetAllPosts] = useState([]);
 
   const toggleMode = () => {
     if (mode === "light") {
@@ -28,7 +28,7 @@ export default function State(props) {
   };
 
   //* getAllPosts Function
-  function getAllPosts() {
+  function getAllBlogPosts() {
     setLoading(true);
     try {
       const q = query(collection(fireDB, "blogPost"), orderBy("time"));
@@ -38,7 +38,7 @@ export default function State(props) {
           postArray.push({ ...doc.data(), id: doc.id });
         });
 
-        setGetAllPost(postArray);
+        setGetAllPosts(postArray);
         setLoading(false);
       });
       return () => data;
@@ -49,15 +49,15 @@ export default function State(props) {
   }
 
   useEffect(() => {
-    getAllPosts();
+    getAllBlogPosts();
   }, []);
 
-  // Blog Delete Function
-  const deletePosts = async id => {
+  // Post Delete Function
+  const deletePost = async id => {
     try {
       await deleteDoc(doc(fireDB, "blogPost", id));
-      getAllPosts();
-      toast.success("Posts deleted successfully");
+      getAllBlogPosts();
+      toast.success("Post deleted successfully");
     } catch (error) {
       console.log(error);
     }
@@ -72,8 +72,8 @@ export default function State(props) {
         setSearchKey,
         loading,
         setLoading,
-        getAllPost,
-        deletePosts,
+        getAllPosts,
+        deletePost,
       }}
     >
       {props.children}

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import State from "./context/State";
 import Home from "./pages/home/Home";
-import PostCard from "./components/post/PostCard";
+// import PostCard from "./components/post/PostCard";
 import AllPosts from "./pages/allPosts/AllPosts";
-import Post from "./components/post/Post";
+import PostPage from "./pages/postPage/PostPage";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AddPost from "./pages/admin/AddPost";
@@ -18,9 +18,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/post" element={<PostCard />} />
+          {/* <Route path="/post" element={<PostCard />} /> */}
           <Route path="/allposts" element={<AllPosts />} />
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="/post/:id" element={<PostPage />} />
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route
             path="/admindashboard"
