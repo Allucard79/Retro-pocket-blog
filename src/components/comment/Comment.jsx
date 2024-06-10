@@ -11,7 +11,7 @@ export default function Comment({
   setFullName,
 }) {
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, language } = context;
 
   const [openNav, setOpenNav] = useState(false);
 
@@ -30,7 +30,9 @@ export default function Comment({
             >
               <input
                 type="text"
-                placeholder="Enter Full Name"
+                placeholder={
+                  language === "pl" ? "Twój Nick" : "Enter Full Name"
+                }
                 value={fullName}
                 onChange={e => setFullName(e.target.value)}
                 className="px-0 w-full text-sm border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 "
@@ -61,7 +63,11 @@ export default function Comment({
                   background:
                     mode === "dark" ? "#353b48" : "rgb(226, 232, 240)",
                 }}
-                placeholder="Write a comment..."
+                placeholder={
+                  language === "pl"
+                    ? "Napisz komentarz..."
+                    : "Write a comment..."
+                }
                 required
                 defaultValue={""}
               />
@@ -77,7 +83,7 @@ export default function Comment({
                     mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
                 }}
               >
-                Add comment
+                {language === "pl" ? "Zapisz" : "Add comment"}
               </Button>
             </div>
           </form>
@@ -88,14 +94,16 @@ export default function Comment({
             className="flex items-center justify-between p-1 text-xl font-semibold text-gray-700"
             style={{ color: mode === "dark" ? "white" : "black" }}
           >
-            All comments
+            {language === "pl" ? "Komentarze" : "All comments"}
           </h3>
           <button
             onClick={() => setOpenNav(!openNav)}
             className="flex items-center justify-between p-1 text-lg font-semibold text-gray-700 rounded-lg focus:outline-none"
             style={{ color: mode === "dark" ? "white" : "black" }}
           >
-            <span>Post comment</span>
+            <span>
+              {language === "pl" ? "Dodaj komentarz" : "Post comment"}
+            </span>
             <svg
               className={`w-6 h-6 transition-transform transform ${
                 openNav ? "rotate-180" : "rotate-0"
@@ -157,7 +165,7 @@ export default function Comment({
               className="text-gray-500 dark:text-gray-400 text-md"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              There is no comments
+              {language === "pl" ? "Brak komentarzy" : "There is no comments"}
             </p>
           )}
         </article>

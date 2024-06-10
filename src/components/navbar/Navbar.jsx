@@ -18,7 +18,7 @@ export default function Nav() {
   const [openNav, setOpenNav] = useState(false);
 
   const context = useContext(Context);
-  const { mode, toggleMode } = context;
+  const { mode, toggleMode, language, toggleLanguage } = context;
 
   const admin = localStorage.getItem("admin");
 
@@ -40,7 +40,7 @@ export default function Nav() {
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
         <Link to={"/"} className="flex items-center">
-          Home
+          {language === "pl" ? "Strona główna" : "Home"}
         </Link>
       </Typography>
       <Typography
@@ -51,7 +51,7 @@ export default function Nav() {
         style={{ color: mode === "dark" ? "white" : "white" }}
       >
         <Link to={"/allposts"} className="flex items-center">
-          Dashboard
+          {language === "pl" ? "Panel" : "Dashboard"}
         </Link>
       </Typography>
       {!admin ? (
@@ -63,7 +63,7 @@ export default function Nav() {
           style={{ color: mode === "dark" ? "white" : "white" }}
         >
           <Link to={"/adminlogin"} className="flex items-center">
-            Login
+            {language === "pl" ? "Zaloguj" : "Login"}
           </Link>
         </Typography>
       ) : (
@@ -74,7 +74,10 @@ export default function Nav() {
           className="p-1 font-normal"
           style={{ color: mode === "dark" ? "white" : "white" }}
         >
-          <button onClick={logout}>Logout</button>
+          <button onClick={logout}>
+            {" "}
+            {language === "pl" ? "Wyloguj" : "Logout"}
+          </button>
         </Typography>
       )}
     </ul>
@@ -88,19 +91,51 @@ export default function Nav() {
       >
         {/* Desktop View  */}
         <div className="flex items-center justify-between text-blue-gray-900">
+          <div className="flex">
+            <Link to={"/"}>
+              <Typography
+                as="a"
+                className="mr-4 cursor-pointer py-2 text-xl font-bold flex gap-2 items-center"
+                style={{ color: mode === "dark" ? "white" : "white" }}
+              >
+                {/* Logo Image  */}
+                <img className=" w-11 h-11 " src={logo} />
+                {/* Logo Text  */}
+                <span>Retro Pocket</span>
+              </Typography>
+            </Link>
+            <div className="cursor-pointer text-sm flex items-center">
+              {language === "pl" ? (
+                <>
+                  {/* PL Language  */}
+                  <p
+                    onClick={toggleLanguage}
+                    className="cursor-pointer"
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    PL
+                  </p>
+                </>
+              ) : (
+                <>
+                  {/* EN Language */}
+                  <p
+                    onClick={toggleLanguage}
+                    className="cursor-pointer"
+                    style={{
+                      color: "white",
+                    }}
+                  >
+                    EN
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
           {/* Home Page Link  */}
-          <Link to={"/"}>
-            <Typography
-              as="a"
-              className="mr-4 cursor-pointer py-1.5 text-xl font-bold flex gap-2 items-center"
-              style={{ color: mode === "dark" ? "white" : "white" }}
-            >
-              {/* Logo Image  */}
-              <img className=" w-11 h-11 " src={logo} />
-              {/* Logo Text  */}
-              <span>Retro Pocket</span>
-            </Typography>
-          </Link>
+
           {/* All Items  */}
           <div className="flex items-center gap-4">
             {/* navMenu  */}

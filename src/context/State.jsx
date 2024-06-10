@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 
 export default function State(props) {
   const [mode, setMode] = useState("light");
+  const [language, setLanguage] = useState("pl");
   const [searchKey, setSearchKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [getAllPosts, setGetAllPosts] = useState([]);
@@ -24,6 +25,14 @@ export default function State(props) {
     } else {
       setMode("light");
       document.body.style.backgroundColor = "white";
+    }
+  };
+
+  const toggleLanguage = () => {
+    if (language === "pl") {
+      setLanguage("en");
+    } else {
+      setLanguage("pl");
     }
   };
 
@@ -68,6 +77,8 @@ export default function State(props) {
       value={{
         mode,
         toggleMode,
+        language,
+        toggleLanguage,
         searchKey,
         setSearchKey,
         loading,

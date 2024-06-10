@@ -12,7 +12,7 @@ import Loader from "../../components/loader/Loader";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const context = useContext(Context);
-  const { mode, setLoading, loading } = context;
+  const { mode, language, setLoading, loading } = context;
 
   const fetchPosts = async () => {
     try {
@@ -55,7 +55,7 @@ export default function Home() {
               color: mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
             }}
           >
-            See More
+            {language === "pl" ? "Więcej" : "See More"}
           </Button>
         </Link>
       </div>

@@ -5,7 +5,7 @@ import PostCard from "../../components/post/PostCard";
 
 export default function AllPosts() {
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, language } = context;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,7 +21,8 @@ export default function AllPosts() {
               className=" text-center text-2xl font-bold"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              All Posts
+               {language === "pl" ? "Wszystkie artykuły" : " All Posts"}
+             
             </h1>
           </div>
           {/* Main Content  */}
