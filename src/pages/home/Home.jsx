@@ -50,10 +50,10 @@ export default function Home() {
       <div className="flex justify-center my-5">
         <Link to={"/allposts"}>
           <Button
-            style={{
-              background: mode === "dark" ? "rgb(226, 232, 240)" : "#30336B",
-              color: mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
-            }}
+            ripple="light"
+            className={`h-full shadow-xl cursor-pointer
+              ${mode === "dark" ? "bg-gray-800 hover:bg-gray-600" : "bg-indigo-900 hover:bg-indigo-600"} 
+              rounded-xl overflow-hidden`}
           >
             {language === "pl" ? "Więcej" : "See More"}
           </Button>

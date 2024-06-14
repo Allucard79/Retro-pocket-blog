@@ -15,6 +15,7 @@ import Context from "../../context/Context";
 import Loader from "../loader/Loader";
 import Comment from "../comment/Comment";
 import toast from "react-hot-toast";
+import TopButton from "../topButton/TopButton";
 
 export default function Post({ post }) {
   const [getPost, setGetPost] = useState(post || {});
@@ -170,6 +171,7 @@ export default function Post({ post }) {
           }`}
         />
       </div>
+      <TopButton/>
     </section>
   );
 }
