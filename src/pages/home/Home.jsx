@@ -21,7 +21,12 @@ export default function Home() {
         id: doc.id,
         ...doc.data(),
       }));
-      setPosts(postsData);
+
+      const sortedPosts = postsData
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 3);
+
+      setPosts(sortedPosts);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching posts: ", error);
@@ -50,9 +55,12 @@ export default function Home() {
       <div className="flex justify-center my-5">
         <Link to={"/allposts"}>
           <Button
-            ripple="light"
             className={`h-full shadow-xl cursor-pointer
-              ${mode === "dark" ? "bg-gray-800 hover:bg-gray-600" : "bg-indigo-900 hover:bg-indigo-600"} 
+              ${
+                mode === "dark"
+                  ? "bg-gray-800 hover:bg-gray-600"
+                  : "bg-indigo-900 hover:bg-indigo-600"
+              } 
               rounded-xl overflow-hidden`}
           >
             {language === "pl" ? "Więcej" : "See More"}

@@ -1,9 +1,9 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Context from "../../context/Context";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { Timestamp, doc, getDoc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -15,14 +15,16 @@ export default function UpdatePost() {
   const [posts, setPosts] = useState({
     title: "",
     category: "",
-    content: "",
+    contentPL: "",
+    contentEN: "",
   });
   const [text, setText] = useState("");
   const [thumbnail, setThumbnail] = useState();
   const [existingThumbnail, setExistingThumbnail] = useState("");
+  const editorRef = useRef(null);
 
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, language, toggleLanguage } = context;
 
   const navigate = useNavigate();
 
@@ -34,6 +36,13 @@ export default function UpdatePost() {
         const postData = postSnap.data();
         setPosts(postData.posts);
         setExistingThumbnail(postData.thumbnail);
+
+        // Set content in the editor
+        if (editorRef.current) {
+          const content =
+            language === "pl" ? postData.contentPL : postData.contentEN;
+          editorRef.current.setContent(content);
+        }
       } else {
         toast.error("Post not found");
         navigate("/admindashboard");
@@ -42,7 +51,7 @@ export default function UpdatePost() {
 
     fetchPost();
     window.scrollTo(0, 0);
-  }, [id, navigate]);
+  }, [id, language, navigate]); // Include language in dependencies if it can change
 
   //* Update Post Function
   const updateBlogPost = async () => {
@@ -117,8 +126,41 @@ export default function UpdatePost() {
                 color: mode === "dark" ? "white" : "black",
               }}
             >
-              Update Post
+              {language === "pl" ? "Edytuj post" : "Edit Post"}
             </Typography>
+          </div>
+          <div className="cursor-pointer text-sm flex items-center">
+            {language === "pl" ? (
+              <>
+                {/* PL Language  */}
+                <IconButton
+                  onClick={toggleLanguage}
+                  className="cursor-pointer"
+                  style={{
+                    backgroundColor: "black",
+                    padding: "10px",
+                    borderRadius: "20%",
+                  }}
+                >
+                  PL
+                </IconButton>
+              </>
+            ) : (
+              <>
+                {/* EN Language */}
+                <IconButton
+                  onClick={toggleLanguage}
+                  className="cursor-pointer"
+                  style={{
+                    backgroundColor: "black",
+                    padding: "10px",
+                    borderRadius: "20%",
+                  }}
+                >
+                  EN
+                </IconButton>
+              </>
+            )}
           </div>
           <Link
             to={"/admindashboard"}
@@ -127,7 +169,8 @@ export default function UpdatePost() {
               color: mode === "dark" ? "white" : "black",
             }}
           >
-            <BsFillArrowLeftCircleFill size={25} /> Dashboard
+            <BsFillArrowLeftCircleFill size={25} />{" "}
+            {language === "pl" ? "Anuluj" : "Cancel"}
           </Link>
         </div>
         {/* main Content */}
@@ -149,7 +192,7 @@ export default function UpdatePost() {
             className="mb-2 font-semibold"
             style={{ color: mode === "dark" ? "white" : "black" }}
           >
-            Upload Picture
+            {language === "pl" ? "Zmień zdjęcie" : "Update Picture"}
           </Typography>
           {/* First Thumbnail Input */}
           <input
@@ -205,10 +248,13 @@ export default function UpdatePost() {
         {/* Four Editor */}
         <Editor
           apiKey={ApiKey}
-          value={posts.content}
-          onEditorChange={(newValue, editor) => {
-            setPosts({ ...posts, content: newValue });
-            setText(editor.getContent({ format: "text" }));
+          value={language === "pl" ? posts.contentPL : posts.contentEN}
+          onEditorChange={newValue => {
+            if (language === "pl") {
+              setPosts({ ...posts, contentPL: newValue });
+            } else {
+              setPosts({ ...posts, contentEN: newValue });
+            }
           }}
           onInit={(evt, editor) => {
             setText(editor.getContent({ format: "text" }));
@@ -216,9 +262,10 @@ export default function UpdatePost() {
           init={{
             plugins: "image link",
             toolbar:
-              "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | " +
-              "bullist numlist outdent indent | link image | print preview media fullscreen | " +
-              "forecolor backcolor emoticons | help",
+              "undo redo | styles fontsize | bold italic | alignleft aligncenter alignright alignjustify | " +
+              "bullist numlist outdent indent | link image | " +
+              "forecolor backcolor emoticons  | help",
+            directionality: "ltr", // Ensure this is set to 'ltr'
           }}
         />
         {/* Five Submit Button */}
@@ -231,7 +278,7 @@ export default function UpdatePost() {
             color: mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
           }}
         >
-          Update Post
+          {language === "pl" ? "Zapisz post" : "Update Post"}
         </Button>
         {/* Six Preview Section */}
         <div className="">
@@ -241,11 +288,12 @@ export default function UpdatePost() {
               color: mode === "dark" ? "white" : "black",
             }}
           >
-            Preview
+            {language === "pl" ? "Podgląd" : "Preview"}
           </h1>
           <div className="content">
-            <div
-              className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+            {language === "pl" ? (
+              <div
+                className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${
                           mode === "dark"
                             ? "[&>h1]:text-[#E2E8F0]"
@@ -297,8 +345,65 @@ export default function UpdatePost() {
                             : "[&>ol]:text-black"
                         }
                         `}
-              dangerouslySetInnerHTML={createMarkup(posts.content)}
-            ></div>
+                dangerouslySetInnerHTML={createMarkup(posts.contentPL)}
+              ></div>
+            ) : (
+              <div
+                className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+                        ${
+                          mode === "dark"
+                            ? "[&>h1]:text-[#E2E8F0]"
+                            : "[&>h1]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h2]:text-white"
+                            : "[&>h2]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h3]:text-white"
+                            : "[&>h3]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h4]:text-white"
+                            : "[&>h4]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h5]:text-white"
+                            : "[&>h5]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h6]:text-white"
+                            : "[&>h6]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>p]:text-[#E2E8F0]"
+                            : "[&>p]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ul]:text-white"
+                            : "[&>ul]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        `}
+                dangerouslySetInnerHTML={createMarkup(posts.contentEN)}
+              ></div>
+            )}
           </div>
         </div>
       </div>

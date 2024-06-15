@@ -1,26 +1,28 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Context from "../../context/Context";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, IconButton, Typography } from "@material-tailwind/react";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { fireDB, storage } from "../../firebase/FirebaseConfig";
-import {ApiKey} from '../../helpers/Helpers'
+import { ApiKey } from "../../helpers/Helpers";
 
 export default function AddPost() {
   const [posts, setPosts] = useState({
     title: "",
     category: "",
-    content: "",
+    contentPL: "",
+    contentEN: "",
   });
   const [text, setText] = useState("");
   const [thumbnail, setThumbnail] = useState();
+  const editorRef = useRef(null);
 
   const context = useContext(Context);
-  const { mode } = context;
+  const { mode, language, toggleLanguage } = context;
 
   const navigate = useNavigate();
 
@@ -29,7 +31,8 @@ export default function AddPost() {
     if (
       posts.title === "" ||
       posts.category === "" ||
-      posts.content === "" ||
+      posts.contentPL === "" ||
+      posts.contentEN === "" ||
       posts.thumbnail === ""
     ) {
       toast.error("Please Fill All Fields");
@@ -67,7 +70,11 @@ export default function AddPost() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (editorRef.current) {
+      const content = language === "pl" ? posts.contentPL : posts.contentEN;
+      editorRef.current.setContent(content);
+    }
+  }, [language, posts.contentPL, posts.contentEN]);
 
   // Create markup function
   function createMarkup(c) {
@@ -95,9 +102,42 @@ export default function AddPost() {
                 color: mode === "dark" ? "white" : "black",
               }}
             >
-              Create Post
+              {language === "pl" ? "Stwórz post" : "Create Post"}
             </Typography>
             {/* Dashboard Link  */}
+          </div>
+          <div className="cursor-pointer text-sm flex items-center">
+            {language === "pl" ? (
+              <>
+                {/* PL Language  */}
+                <IconButton
+                  onClick={toggleLanguage}
+                  className="cursor-pointer"
+                  style={{
+                    backgroundColor: "black",
+                    padding: "10px",
+                    borderRadius: "20%",
+                  }}
+                >
+                  PL
+                </IconButton>
+              </>
+            ) : (
+              <>
+                {/* EN Language */}
+                <IconButton
+                  onClick={toggleLanguage}
+                  className="cursor-pointer"
+                  style={{
+                    backgroundColor: "black",
+                    padding: "10px",
+                    borderRadius: "20%",
+                  }}
+                >
+                  EN
+                </IconButton>
+              </>
+            )}
           </div>
           <Link
             to={"/admindashboard"}
@@ -106,7 +146,8 @@ export default function AddPost() {
               color: mode === "dark" ? "white" : "black",
             }}
           >
-            <BsFillArrowLeftCircleFill size={25} /> Dashboard
+            <BsFillArrowLeftCircleFill size={25} />{" "}
+            {language === "pl" ? "Anuluj" : "Cancel"}
           </Link>
         </div>
         {/* main Content  */}
@@ -126,7 +167,7 @@ export default function AddPost() {
             className="mb-2 font-semibold"
             style={{ color: mode === "dark" ? "white" : "black" }}
           >
-            Upload Picture
+            {language === "pl" ? "Dodaj zdjęcie" : "Upload Picture"}
           </Typography>
           {/* First Thumbnail Input  */}
           <input
@@ -182,9 +223,13 @@ export default function AddPost() {
         {/* Four Editor  */}
         <Editor
           apiKey={ApiKey}
-          onEditorChange={(newValue, editor) => {
-            setPosts({ ...posts, content: newValue });
-            setText(editor.getContent({ format: "text" }));
+          value={language === "pl" ? posts.contentPL : posts.contentEN}
+          onEditorChange={(newValue) => {
+            if (language === "pl") {
+              setPosts({ ...posts, contentPL: newValue });
+            } else {
+              setPosts({ ...posts, contentEN: newValue });
+            }
           }}
           onInit={(evt, editor) => {
             setText(editor.getContent({ format: "text" }));
@@ -192,11 +237,13 @@ export default function AddPost() {
           init={{
             plugins: "image link",
             toolbar:
-              "undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | " +
-              "bullist numlist outdent indent | link image | print preview media fullscreen | " +
-              "forecolor backcolor emoticons | help",
+              "undo redo | styles fontsize | bold italic | alignleft aligncenter alignright alignjustify | " +
+              "bullist numlist outdent indent | link image | " +
+              "forecolor backcolor emoticons  | help",
+            directionality: "ltr", // Ensure this is set to 'ltr'
           }}
         />
+
         {/* Five Submit Button  */}
         <Button
           className=" w-full mt-5"
@@ -207,7 +254,7 @@ export default function AddPost() {
             color: mode === "dark" ? "rgb(30, 41, 59)" : "rgb(226, 232, 240)",
           }}
         >
-          Add Post
+          {language === "pl" ? "Dodaj post" : "Add Post"}
         </Button>
         {/* Six Preview Section  */}
         <div className="">
@@ -217,11 +264,12 @@ export default function AddPost() {
               color: mode === "dark" ? "white" : "black",
             }}
           >
-            Preview
+            {language === "pl" ? "Podgląd" : "Preview"}
           </h1>
           <div className="content">
-            <div
-              className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+            {language === "pl" ? (
+              <div
+                className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${
                           mode === "dark"
                             ? "[&>h1]:text-[#E2E8F0]"
@@ -273,8 +321,65 @@ export default function AddPost() {
                             : "[&>ol]:text-black"
                         }
                         `}
-              dangerouslySetInnerHTML={createMarkup(posts.content)}
-            ></div>
+                dangerouslySetInnerHTML={createMarkup(posts.contentPL)}
+              ></div>
+            ) : (
+              <div
+                className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+                        ${
+                          mode === "dark"
+                            ? "[&>h1]:text-[#E2E8F0]"
+                            : "[&>h1]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h2]:text-white"
+                            : "[&>h2]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h3]:text-white"
+                            : "[&>h3]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h4]:text-white"
+                            : "[&>h4]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h5]:text-white"
+                            : "[&>h5]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>h6]:text-white"
+                            : "[&>h6]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>p]:text-[#E2E8F0]"
+                            : "[&>p]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ul]:text-white"
+                            : "[&>ul]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        ${
+                          mode === "dark"
+                            ? "[&>ol]:text-white"
+                            : "[&>ol]:text-black"
+                        }
+                        `}
+                dangerouslySetInnerHTML={createMarkup(posts.contentEN)}
+              ></div>
+            )}
           </div>
         </div>
       </div>

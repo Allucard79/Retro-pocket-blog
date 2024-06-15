@@ -33,7 +33,7 @@ export default function TopButton() {
         <IconButton
           onClick={scrollToTop}
           style={{
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgba(0, 0, 0, 0.25)",
             padding: "10px",
             borderRadius: "20%",
           }}

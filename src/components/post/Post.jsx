@@ -20,7 +20,7 @@ import TopButton from "../topButton/TopButton";
 export default function Post({ post }) {
   const [getPost, setGetPost] = useState(post || {});
   const context = useContext(Context);
-  const { mode, setLoading, loading } = context;
+  const { mode, setLoading, loading, language } = context;
   const params = useParams();
   const postId = params.id || post?.id;
 
@@ -130,30 +130,65 @@ export default function Post({ post }) {
               }`}
             />
             <div className="content">
-              <div
-                className={`[&>h1]:text-[32px] [&>h1]:font-bold [&>h1]:mb-2.5 ${
-                  mode === "dark"
-                    ? "[&>h1]:text-[#E2E8F0]"
-                    : "[&>h1]:text-black"
-                } ${
-                  mode === "dark" ? "[&>h2]:text-white" : "[&>h2]:text-black"
-                } ${
-                  mode === "dark" ? "[&>h3]:text-white" : "[&>h3]:text-black"
-                } ${
-                  mode === "dark" ? "[&>h4]:text-white" : "[&>h4]:text-black"
-                } ${
-                  mode === "dark" ? "[&>h5]:text-white" : "[&>h5]:text-black"
-                } ${
-                  mode === "dark" ? "[&>h6]:text-white" : "[&>h6]:text-black"
-                } ${
-                  mode === "dark" ? "[&>p]:text-[#E2E8F0]" : "[&>p]:text-black"
-                } ${
-                  mode === "dark" ? "[&>ul]:text-white" : "[&>ul]:text-black"
-                } ${
-                  mode === "dark" ? "[&>ol]:text-white" : "[&>ol]:text-black"
-                }`}
-                dangerouslySetInnerHTML={createMarkup(getPost?.posts?.content)}
-              />
+              {language === "pl" ? (
+                <div
+                  className={`[&>h1]:text-[32px] [&>h1]:font-bold [&>h1]:mb-2.5 ${
+                    mode === "dark"
+                      ? "[&>h1]:text-[#E2E8F0]"
+                      : "[&>h1]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h2]:text-white" : "[&>h2]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h3]:text-white" : "[&>h3]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h4]:text-white" : "[&>h4]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h5]:text-white" : "[&>h5]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h6]:text-white" : "[&>h6]:text-black"
+                  } ${
+                    mode === "dark"
+                      ? "[&>p]:text-[#E2E8F0]"
+                      : "[&>p]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>ul]:text-white" : "[&>ul]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>ol]:text-white" : "[&>ol]:text-black"
+                  }`}
+                  dangerouslySetInnerHTML={createMarkup(
+                    getPost?.posts?.contentPL
+                  )}
+                />
+              ) : (
+                <div
+                  className={`[&>h1]:text-[32px] [&>h1]:font-bold [&>h1]:mb-2.5 ${
+                    mode === "dark"
+                      ? "[&>h1]:text-[#E2E8F0]"
+                      : "[&>h1]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h2]:text-white" : "[&>h2]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h3]:text-white" : "[&>h3]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h4]:text-white" : "[&>h4]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h5]:text-white" : "[&>h5]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>h6]:text-white" : "[&>h6]:text-black"
+                  } ${
+                    mode === "dark"
+                      ? "[&>p]:text-[#E2E8F0]"
+                      : "[&>p]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>ul]:text-white" : "[&>ul]:text-black"
+                  } ${
+                    mode === "dark" ? "[&>ol]:text-white" : "[&>ol]:text-black"
+                  }`}
+                  dangerouslySetInnerHTML={createMarkup(
+                    getPost?.posts?.contentEN
+                  )}
+                />
+              )}
             </div>
           </div>
         )}
@@ -171,7 +206,7 @@ export default function Post({ post }) {
           }`}
         />
       </div>
-      <TopButton/>
+      <TopButton />
     </section>
   );
 }
