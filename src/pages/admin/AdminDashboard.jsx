@@ -7,7 +7,7 @@ import AdminPicture from "../../assets/img/admin.png";
 
 export default function AdminDashboard() {
   const context = useContext(Context);
-  const { mode, getAllPosts, deletePost } = context;
+  const { mode, getAllPosts, deletePost, language } = context;
 
   const navigate = useNavigate();
 
@@ -41,14 +41,14 @@ export default function AdminDashboard() {
                 className="font-bold text-2xl"
                 style={{ color: mode === "dark" ? "white" : "black" }}
               >
-                Admin Group
+                {language === "pl" ? "Administratorzy" : "Admin Group"}
               </h1>
             </div>
             <h2
               className="font-semibold"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              Name: {adminName}
+              {language === "pl" ? "Nazwa" : "Name"}: {adminName}
             </h2>
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
@@ -61,10 +61,8 @@ export default function AdminDashboard() {
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              Total Post :{" "}
-              <span style={{ color: "red" }}>
-                {getAllPosts.length}
-              </span>
+              {language === "pl" ? "Liczba postów" : "Total Post"}:{" "}
+              <span style={{ color: "red" }}>{getAllPosts.length}</span>
             </h2>
             <div className=" flex gap-2 mt-5">
               <Link to={"/addpost"}>
@@ -79,7 +77,7 @@ export default function AdminDashboard() {
                     }}
                     className="px-8 py-2"
                   >
-                    Add Post
+                    {language === "pl" ? "Dodaj post" : "Add Post"}
                   </Button>
                 </div>
               </Link>
@@ -95,7 +93,7 @@ export default function AdminDashboard() {
                   }}
                   className="px-8 py-2"
                 >
-                  Logout
+                  {language === "pl" ? "Wyloguj" : "Logout"}
                 </Button>
               </div>
             </div>
@@ -252,14 +250,14 @@ export default function AdminDashboard() {
                                 onClick={() => navigate(`/editpost/${id}`)}
                                 className=" px-6 py-1 mr-2 rounded-lg text-white font-bold bg-green-500"
                               >
-                                Edit
+                                {language === "pl" ? "Edytuj" : "Edit"}
                               </button>
 
                               <button
                                 onClick={() => deletePost(id)}
                                 className=" px-4 py-1 mt-1 rounded-lg text-white font-bold bg-red-500"
                               >
-                                Delete
+                                {language === "pl" ? "Usuń" : "Delete"}
                               </button>
                             </td>
                           </tr>
@@ -268,7 +266,7 @@ export default function AdminDashboard() {
                     })}
                   </>
                 ) : (
-                  <>Post not Found</>
+                  <>{language === "pl" ? "Brak postów" : "Post not Found"}</>
                 )}
               </table>
             </div>

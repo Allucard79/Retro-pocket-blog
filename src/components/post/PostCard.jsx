@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PostCard() {
   const context = useContext(Context);
-  const { mode, getAllPosts } = context;
+  const { mode, getAllPosts, language } = context;
 
   const navigate = useNavigate();
 
@@ -93,7 +93,11 @@ export default function PostCard() {
             ) : (
               <>
                 {" "}
-                <h1 className="text-xl font-bold">No posts to display</h1>
+                <h1 className="text-xl font-bold">
+                  {language === "pl"
+                    ? "Nie ma żadnych postów do wyświetlenia"
+                    : "No posts to display"}
+                </h1>
               </>
             )}
           </div>

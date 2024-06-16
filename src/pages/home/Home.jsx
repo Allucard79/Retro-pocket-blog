@@ -46,9 +46,15 @@ export default function Home() {
         <Loader />
       ) : (
         <div className="post-list">
-          {posts.map(post => (
-            <Post key={post.id} post={post} />
-          ))}
+          {posts.length > 0 ? (
+            posts.map(post => <Post key={post.id} post={post} />)
+          ) : (
+            <h1 className="flex justify-center my-5 text-xl font-bold">
+              {language === "pl"
+                ? "Nie ma żadnych postów do wyświetlenia"
+                : "No posts to display"}
+            </h1>
+          )}
         </div>
       )}
       {/* See More Button  */}
