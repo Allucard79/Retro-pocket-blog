@@ -20,7 +20,7 @@ export default function Header() {
                 <img src={Logo} alt="Logo" />
               </div>
               {/* Text  */}
-              <h1 className=" text-4xl text-white font-bold">Retro Pocket</h1>
+              <h1 className=" text-4xl text-white font-bold">Retro Nook</h1>
             </div>
             {/* Paragraph  */}
             <p

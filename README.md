@@ -1,6 +1,6 @@
-# Retro Pocket Blog
+# Retro Nook Blog
 
-Welcome to the Retro Pocket Blog! This project is a modern web application dedicated to all things retro gaming, including classic consoles, hardware, and games. Built with React.js for the frontend and Firebase for data storage, this blog aims to provide a nostalgic trip down memory lane for retro gaming enthusiasts.
+Welcome to the Retro Nook! This project is a modern web application dedicated to all things retro gaming, including classic consoles, hardware, and games. Built with React.js for the frontend and Firebase for data storage, this blog aims to provide a nostalgic trip down memory lane for retro gaming enthusiasts.
 
 ## Features
 

@@ -101,7 +101,7 @@ export default function Nav() {
                 {/* Logo Image  */}
                 <img className=" w-11 h-11 " src={logo} />
                 {/* Logo Text  */}
-                <span>Retro Pocket</span>
+                <span>Retro Nook</span>
               </Typography>
             </Link>
             <div className="cursor-pointer text-sm flex items-center">

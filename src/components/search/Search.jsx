@@ -75,7 +75,7 @@ export default function Search() {
           </div>
           {/* Heading  */}
           <div className=" text-center">
-            <h1 className=" text-gray-600">Retro Pocket</h1>
+            <h1 className=" text-gray-600">Retro Nook</h1>
           </div>
         </DialogBody>
       </Dialog>
