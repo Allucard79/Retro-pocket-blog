@@ -47,7 +47,19 @@ export default function Home() {
       ) : (
         <div className="post-list">
           {posts.length > 0 ? (
-            posts.map(post => <Post key={post.id} post={post} />)
+            posts.map(post => {
+              return (
+<>
+                <Post key={post.id} post={post} />
+                <div
+                  className={`border-b mb-5 overflow-hidden max-w-4xl mx-auto px-4 ${
+                    mode === "dark" ? "border-gray-600" : "border-gray-400"
+                  }`}
+                />
+              </>
+              )
+              
+            })
           ) : (
             <h1 className="flex justify-center my-5 text-xl font-bold">
               {language === "pl"
@@ -61,11 +73,11 @@ export default function Home() {
       <div className="flex justify-center my-5">
         <Link to={"/allposts"}>
           <Button
-            className={`h-full shadow-xl cursor-pointer
+            className={`h-full cursor-pointer
               ${
                 mode === "dark"
                   ? "bg-gray-800 hover:bg-gray-600"
-                  : "bg-indigo-900 hover:bg-indigo-600"
+                  : "bg-orange-900 hover:bg-indigo-800"
               } 
               rounded-xl overflow-hidden`}
           >

@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer
       className="body-font"
-      style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#30336b" }}
+      style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#21346C" }}
     >
       {/* Left Content  */}
       <div className="container px-5 py-3 mx-auto flex items-center sm:flex-row flex-col">

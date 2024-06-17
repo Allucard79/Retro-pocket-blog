@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import {
   Timestamp,
   addDoc,
@@ -11,6 +12,7 @@ import {
   query,
 } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Context from "../../context/Context";
 import Loader from "../loader/Loader";
 import Comment from "../comment/Comment";
@@ -23,6 +25,9 @@ export default function Post({ post }) {
   const { mode, setLoading, loading, language } = context;
   const params = useParams();
   const postId = params.id || post?.id;
+
+  const location = useLocation();
+  const urlContainsPost = location.pathname.includes("post");
 
   const fetchPost = async () => {
     if (post) return; // Skip fetching if post data is provided via props
@@ -200,12 +205,20 @@ export default function Post({ post }) {
           fullName={fullName}
           setFullName={setFullName}
         />
-        <div
-          className={`border-b mb-5 ${
-            mode === "dark" ? "border-gray-600" : "border-gray-400"
-          }`}
-        />
       </div>
+      {urlContainsPost && (
+        <Link
+          to={"/"}
+          className="flex gap-2 mb-5 font-semibold"
+          style={{
+            color: mode === "dark" ? "white" : "black",
+          }}
+        >
+          <BsFillArrowLeftCircleFill size={25} />{" "}
+          {language === "pl" ? "Powrót" : "Go back"}
+        </Link>
+      )}
+
       <TopButton />
     </section>
   );

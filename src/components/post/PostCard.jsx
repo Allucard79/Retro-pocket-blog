@@ -27,18 +27,10 @@ export default function PostCard() {
                     >
                       <div
                         style={{
-                          background: mode === "dark" ? "#1E293B" : "#683058",
-                          border:
-                            mode === "dark"
-                              ? " 4px solid #BEBDCC"
-                              : " 4px solid #683058",
+                          background: mode === "dark" ? "#1E293B" : "#EF4522",
                         }}
-                        className={`h-full shadow-xl cursor-pointer
-             ${
-               mode === "dark"
-                 ? "hover:shadow-gray-400"
-                 : "hover:shadow-indigo-900"
-             } 
+                        className={`h-full  cursor-pointer
+             ${mode === "dark" ? "border-solid border-4 border-gray-700 hover:border-gray-800" : "border-solid border-4 border-indigo-900 hover:border-blue-500"} 
              rounded-xl overflow-hidden`}
                       >
                         {/* Post Thumbnail  */}

@@ -7,7 +7,7 @@ export default function Header() {
   const { mode, language } = context;
   return (
     <section
-      style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#30336b" }}
+      style={{ background: mode === "dark" ? "rgb(30, 41, 59)" : "#EF4522" }}
     >
       {/* Header  */}
       <div className="container mx-auto flex px-5 py-24 items-center justify-center flex-col">

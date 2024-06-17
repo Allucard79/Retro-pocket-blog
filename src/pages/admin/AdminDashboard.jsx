@@ -134,7 +134,7 @@ export default function AdminDashboard() {
                       scope="col"
                       className="px-6 py-3"
                     >
-                      Thumbnail
+                      {language === "pl" ? "Zdjęcie" : "Thumbnail"}
                     </th>
                     <th
                       style={{
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
                       scope="col"
                       className="px-6 py-3"
                     >
-                      Title
+                      {language === "pl" ? "Tytuł" : "Title"}
                     </th>
                     <th
                       style={{
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                       scope="col"
                       className="px-6 py-3"
                     >
-                      Category
+                      {language === "pl" ? "Kategoria" : "Category"}
                     </th>
                     <th
                       style={{
@@ -161,7 +161,7 @@ export default function AdminDashboard() {
                       scope="col"
                       className="px-6 py-3"
                     >
-                      Date
+                      {language === "pl" ? "Data" : "Date"}
                     </th>
                     <th
                       style={{
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                       scope="col"
                       className="px-6 py-3"
                     >
-                      Action
+                      {language === "pl" ? "Akcja" : "Action"}
                     </th>
                   </tr>
                 </thead>
