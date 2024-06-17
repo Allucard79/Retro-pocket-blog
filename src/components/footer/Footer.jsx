@@ -25,7 +25,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            X RetroPocket
+            X RetroNook
           </a>
         </p>
         {/* Right item  */}
