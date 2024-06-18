@@ -50,7 +50,6 @@ export default function UpdatePost() {
     };
 
     fetchPost();
-    window.scrollTo(0, 0);
   }, [id, language, navigate]); // Include language in dependencies if it can change
 
   //* Update Post Function

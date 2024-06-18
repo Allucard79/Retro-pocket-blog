@@ -69,7 +69,6 @@ export default function AddPost() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (editorRef.current) {
       const content = language === "pl" ? posts.contentPL : posts.contentEN;
       editorRef.current.setContent(content);
