@@ -30,7 +30,11 @@ export default function PostCard() {
                           background: mode === "dark" ? "#1E293B" : "#EF4522",
                         }}
                         className={`h-full  cursor-pointer
-             ${mode === "dark" ? "border-solid border-4 border-gray-700 hover:border-gray-800" : "border-solid border-4 border-indigo-900 hover:border-blue-500"} 
+             ${
+               mode === "dark"
+                 ? "border-solid border-4 border-gray-700 hover:border-gray-800"
+                 : "border-solid border-4 border-indigo-900 hover:border-blue-500"
+             } 
              rounded-xl overflow-hidden`}
                       >
                         {/* Post Thumbnail  */}
@@ -85,7 +89,15 @@ export default function PostCard() {
             ) : (
               <>
                 {" "}
-                <h1 className="text-xl font-bold">
+                <h1
+                  className="text-xl font-bold"
+                  style={{
+                    color:
+                      mode === "dark"
+                        ? "rgb(226, 232, 240)"
+                        : " rgb(30, 41, 59)",
+                  }}
+                >
                   {language === "pl"
                     ? "Nie ma żadnych postów do wyświetlenia"
                     : "No posts to display"}
