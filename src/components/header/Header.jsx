@@ -16,11 +16,11 @@ export default function Header() {
           <div className="text-center">
             <div className="mb-2">
               {/* Image  */}
-              <div className="w-13 h-28 flex justify-center mb-5">
-                <img src={Logo} alt="Logo" />
+              <div className="w-15 sm:h-40 h-24 flex justify-center mb-5">
+                <img src={Logo} className="rounded-xl" alt="Logo" />
               </div>
               {/* Text  */}
-              <h1 className=" text-4xl text-white font-bold">Retro Nook</h1>
+              <h1 className=" text-3xl sm:text-4xl text-white font-bold">Retro Nook</h1>
             </div>
             {/* Paragraph  */}
             <p

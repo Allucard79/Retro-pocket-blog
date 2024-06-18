@@ -99,7 +99,7 @@ export default function Nav() {
                 style={{ color: mode === "dark" ? "white" : "white" }}
               >
                 {/* Logo Image  */}
-                <img className=" w-11 h-11 " src={logo} />
+                <img className=" sm:w-16 w-12 sm:h-16 h-12 rounded-xl" src={logo} />
                 {/* Logo Text  */}
                 <span>Retro Nook</span>
               </Typography>
