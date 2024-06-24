@@ -53,7 +53,10 @@ export default function Search() {
               .filter(obj => obj.posts.title.toLowerCase().includes(searchKey))
               .map((item, index) => {
                 return (
-                  <div className="p-2 sm:w-1/4 w-full " key={index}>
+                  <div
+                    className="p-2 sm:w-1/4 w-full cursor-pointer"
+                    key={index}
+                  >
                     <div
                       onClick={() => navigate(`/post/${item.id}`)}
                       className="container mx-auto px-4 bg-gray-200 p-2 rounded-lg "
