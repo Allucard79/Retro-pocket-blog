@@ -49,14 +49,14 @@ export default function Home() {
           {posts.length > 0 ? (
             posts.map(post => {
               return (
-                <>
-                  <Post key={post.id} post={post} />
+                <div key={post.id}>
+                  <Post post={post} />
                   <div
                     className={`border-b mb-5 overflow-hidden max-w-4xl mx-auto px-4 ${
                       mode === "dark" ? "border-gray-600" : "border-gray-400"
                     }`}
                   />
-                </>
+                </div>
               );
             })
           ) : (

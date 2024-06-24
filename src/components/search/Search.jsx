@@ -1,11 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useCallback } from "react";
 import { Dialog, DialogBody, Input } from "@material-tailwind/react";
 import Context from "../../context/Context";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router";
+import { debounce } from 'lodash';
 
 export default function Search() {
   const [open, setOpen] = useState(false);
+  const [localSearchKey, setLocalSearchKey] = useState("");
 
   const context = useContext(Context);
   const { mode, searchKey, setSearchKey, getAllPosts } = context;
@@ -13,6 +15,16 @@ export default function Search() {
   const navigate = useNavigate();
 
   const handleOpen = () => setOpen(!open);
+
+  const handleSearchChange = useCallback(debounce((value) => {
+    setSearchKey(value);
+  }, 300), []);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setLocalSearchKey(value);
+    handleSearchChange(value);
+  };
 
   return (
     <>
@@ -22,7 +34,7 @@ export default function Search() {
       </div>
       {/* Dialog  */}
       <Dialog
-        className=" relative right-[1em] w-[25em]  md:right-0 md:w-0 lg:right-0 lg:w-0"
+        className="relative right-[1em] w-[25em] md:right-0 md:w-0 lg:right-0 lg:w-0"
         open={open}
         handler={handleOpen}
         style={{
@@ -32,15 +44,15 @@ export default function Search() {
       >
         {/* Dialog Body  */}
         <DialogBody>
-          <div className="flex w-full   justify-center">
+          <div className="flex w-full justify-center">
             {/* Input  */}
             <Input
               color="white"
               type="search"
               label="Type here..."
-              value={searchKey}
-              onChange={e => setSearchKey(e.target.value)}
-              className=" bg-[#2C3A47]"
+              value={localSearchKey}
+              onChange={handleInputChange}
+              className="bg-[#2C3A47]"
               name="searchKey"
               containerProps={{
                 className: "min-w-[288px]",
@@ -48,9 +60,9 @@ export default function Search() {
             />
           </div>
           {/* Post Card  */}
-          <div className="flex justify-center flex-wrap  sm:mx-auto sm:mb-2 -mx-2  mt-4 mb-2 ">
+          <div className="flex justify-center flex-wrap sm:mx-auto sm:mb-2 -mx-2 mt-4 mb-2">
             {getAllPosts
-              .filter(obj => obj.posts.title.toLowerCase().includes(searchKey))
+              .filter(obj => obj.posts.title.toLowerCase().includes(searchKey.toLowerCase()))
               .map((item, index) => {
                 return (
                   <div
@@ -59,7 +71,7 @@ export default function Search() {
                   >
                     <div
                       onClick={() => navigate(`/post/${item.id}`)}
-                      className="container mx-auto px-4 bg-gray-200 p-2 rounded-lg "
+                      className="container mx-auto px-4 bg-gray-200 p-2 rounded-lg"
                     >
                       {/* Post Thumbnail  */}
                       <img
@@ -77,8 +89,8 @@ export default function Search() {
               })}
           </div>
           {/* Heading  */}
-          <div className=" text-center">
-            <h1 className=" text-gray-600">Retro Nook</h1>
+          <div className="text-center">
+            <h1 className="text-gray-600">Retro Nook</h1>
           </div>
         </DialogBody>
       </Dialog>
