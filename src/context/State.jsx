@@ -12,28 +12,31 @@ import { fireDB } from "../firebase/FirebaseConfig";
 import toast from "react-hot-toast";
 
 export default function State(props) {
-  const [mode, setMode] = useState("light");
-  const [language, setLanguage] = useState("pl");
+  const [mode, setMode] = useState(localStorage.getItem("mode") || "light");
+  const [language, setLanguage] = useState(
+    localStorage.getItem("language") || "pl"
+  );
   const [searchKey, setSearchKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [getAllPosts, setGetAllPosts] = useState([]);
 
+  useEffect(() => {
+    document.body.style.backgroundColor =
+      mode === "light" ? "white" : "rgb(17, 24, 39)";
+  }, [mode]);
+
   const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-      document.body.style.backgroundColor = "rgb(17, 24, 39)";
-    } else {
-      setMode("light");
-      document.body.style.backgroundColor = "white";
-    }
+    const newMode = mode === "light" ? "dark" : "light";
+    setMode(newMode);
+    localStorage.setItem("mode", newMode);
+    document.body.style.backgroundColor =
+      newMode === "light" ? "white" : "rgb(17, 24, 39)";
   };
 
   const toggleLanguage = () => {
-    if (language === "pl") {
-      setLanguage("en");
-    } else {
-      setLanguage("pl");
-    }
+    const newLanguage = language === "pl" ? "en" : "pl";
+    setLanguage(newLanguage);
+    localStorage.setItem("language", newLanguage);
   };
 
   //* getAllPosts Function
